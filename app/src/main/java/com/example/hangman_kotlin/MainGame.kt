@@ -7,8 +7,10 @@ class MainGame(private val word: String) {
     private var hasWon: Boolean = false
     private  var status: String = "Playing"
     fun compare(guess: Char) {
+        if (status != "Playing") return
 
         if (!guessed.add(guess)) {
+            // already guessed
             return
         }
 
@@ -26,6 +28,7 @@ class MainGame(private val word: String) {
             status = "you win"
         } else if (lives <= 0) {
             status = "you lose"
+            lives = 0
         }
     }
 
@@ -35,6 +38,13 @@ class MainGame(private val word: String) {
 
     fun resetLives() {
         lives = 6
+    }
+
+    fun resetGame() {
+        for (i in display.indices) display[i] = '_'
+        guessed.clear()
+        lives = 6
+        status = "playing"
     }
 
     fun getDisplay(): String {

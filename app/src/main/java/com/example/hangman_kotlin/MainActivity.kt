@@ -2,6 +2,7 @@ package com.example.hangman_kotlin
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var guessInput: TextInputEditText
     lateinit var livesText: TextView
     lateinit var gameStatusText: TextView
+    lateinit var resetButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         hiddenWordText = findViewById<TextView>(R.id.display_hidden_word)
         guessInput = findViewById<TextInputEditText>(R.id.guess_input)
         gameStatusText = findViewById<TextView>(R.id.game_status_text)
+        resetButton = findViewById<Button>(R.id.new_game_button)
 
         game = MainGame("bonjour")
         livesText.text = "Lives: ${game.getLives()}"
@@ -48,6 +51,15 @@ class MainActivity : AppCompatActivity() {
             } else {
                 false
             }
+        }
+
+        resetButton.setOnClickListener {
+            game.resetGame()
+
+            hiddenWordText.text = game.getDisplay()
+            livesText.text = "Lives: ${game.getLives()}"
+            gameStatusText.text = "Status: ${game.getStatus()}"
+            guessInput.text?.clear()
         }
 
         hiddenWordText.text = game.getDisplay()
