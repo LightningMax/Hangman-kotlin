@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         guessInput = findViewById<TextInputEditText>(R.id.guess_input)
 
         val text = "bonjour"
-        var hiddenWord = generateDisplay(text)
+        var display = generateDisplay(text)
 
         guessInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity() {
 
                 if (input.isNotEmpty()) {
                     val letter = input[0]
-                    hiddenWord = compare(text, letter, hiddenWord)
-                    hiddenWordText.text = hiddenWord
+                    display = compare(text, letter, display)
+                    hiddenWordText.text = display.joinToString(" ")
+
+                    guessInput.text?.clear()
                 }
 
                 true
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        hiddenWordText.text = hiddenWord
+        hiddenWordText.text = display.joinToString(" ")
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -50,27 +52,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun generateDisplay(word: String): String {
-        var generatedWord = ""
-
-        for(i in word.indices) {
-            generatedWord += "_ "
-        }
-
-        return  generatedWord.trim()
+    fun generateDisplay(word: String): CharArray {
+        return CharArray(word.length) { '_' }
     }
 
-    fun compare(word: String, guess: Char, currentDisplay: String): String {
-        var newDisplay = ""
+    fun compare(word: String, guess: Char, display: CharArray): CharArray {
 
         for (i in word.indices) {
-            newDisplay += if (word[i] == guess) {
-                "$guess "
-            } else {
-                "${currentDisplay[i*2]} " // keep previous guess or "_"
+            if (word[i] == guess) {
+                display[i] = guess
             }
         }
 
-        return newDisplay.trim()
+        return display
     }
 }
