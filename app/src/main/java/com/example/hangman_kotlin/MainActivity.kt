@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var hiddenWordText: TextView
     lateinit var guessInput: TextInputEditText
     lateinit var livesText: TextView
+    lateinit var gameStatusText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +24,7 @@ class MainActivity : AppCompatActivity() {
         livesText = findViewById<TextView>(R.id.lives_display)
         hiddenWordText = findViewById<TextView>(R.id.display_hidden_word)
         guessInput = findViewById<TextInputEditText>(R.id.guess_input)
-
-
-
+        gameStatusText = findViewById<TextView>(R.id.game_status_text)
 
         game = MainGame("bonjour")
         livesText.text = "Lives: ${game.getLives()}"
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
                     guessInput.text?.clear()
                     livesText.text = "Lives: ${game.getLives()}"
+                    gameStatusText.text = "Status: ${game.getStatus()}"
                 }
 
                 true

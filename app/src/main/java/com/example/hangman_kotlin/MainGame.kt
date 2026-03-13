@@ -5,6 +5,7 @@ class MainGame(private val word: String) {
     private var lives: Int = 6
     private val guessed: MutableSet<Char> = mutableSetOf()
     private var hasWon: Boolean = false
+    private  var status: String = "Playing"
     fun compare(guess: Char) {
 
         if (!guessed.add(guess)) {
@@ -19,6 +20,12 @@ class MainGame(private val word: String) {
             }
         } else {
             loseLife()
+        }
+
+        if (!display.contains('_')) {
+            status = "you win"
+        } else if (lives <= 0) {
+            status = "you lose"
         }
     }
 
@@ -36,5 +43,9 @@ class MainGame(private val word: String) {
 
     fun getLives(): Int {
         return lives
+    }
+
+    fun getStatus(): String {
+        return status
     }
 }
