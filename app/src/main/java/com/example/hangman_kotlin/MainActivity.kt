@@ -13,16 +13,22 @@ class MainActivity : AppCompatActivity() {
     lateinit var game: MainGame
     lateinit var hiddenWordText: TextView
     lateinit var guessInput: TextInputEditText
+    lateinit var livesText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        livesText = findViewById<TextView>(R.id.lives_display)
         hiddenWordText = findViewById<TextView>(R.id.display_hidden_word)
         guessInput = findViewById<TextInputEditText>(R.id.guess_input)
 
+
+
+
         game = MainGame("bonjour")
+        livesText.text = "Lives: ${game.getLives()}"
 
         guessInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
@@ -35,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                     hiddenWordText.text = game.getDisplay()
 
                     guessInput.text?.clear()
+                    livesText.text = "Lives: ${game.getLives()}"
                 }
 
                 true
